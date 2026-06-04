@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Material Lab & Optimizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <div class="logo">MAYA MATERIAL LAB</div>
+        <div class="header-actions">
+          <!-- Future actions could go here -->
+        </div>
+      </header>
+
+      <div id="canvas-container"></div>
+
+      <!-- Upload Overlay -->
+      <div id="upload-overlay">
+        <div id="drop-zone" class="drop-zone">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <h2>Upload Your Model</h2>
+          <p>Drag and drop your .glb, .gltf or .obj files here<br>to test materials and optimize</p>
+          <input type="file" id="file-input" hidden accept=".glb,.gltf,.obj">
+        </div>
+      </div>
+
+      <!-- Side Panel: Controls -->
+      <div id="side-panel" class="side-panel hidden">
+        <div class="panel-section">
+          <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Scene Settings</h3>
+          <div id="scene-gui"></div>
+        </div>
+
+        <div class="panel-section">
+          <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg> Material Editor</h3>
+          <div id="material-gui"></div>
+        </div>
+
+        <div class="panel-section">
+          <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Optimization</h3>
+          <button id="optimize-btn" class="opt-button">
+            <span class="loading-spinner" id="opt-spinner"></span>
+            <span id="opt-text">Compress (Draco) & Optimize</span>
+          </button>
+          <div style="margin-top: 1rem;">
+             <button id="export-btn" class="opt-button" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+              Download Optimized GLB
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Panel -->
+      <div id="stats-panel" class="stats-panel hidden">
+        <div class="stats-row">
+          <span>File Name:</span>
+          <span id="stat-name" class="stats-value">-</span>
+        </div>
+        <div class="stats-row">
+          <span>File Size:</span>
+          <span id="stat-size" class="stats-value">-</span>
+        </div>
+        <div class="stats-row">
+          <span>Polygons:</span>
+          <span id="stat-poly" class="stats-value">-</span>
+        </div>
+        <div class="stats-row">
+          <span>Draw Calls:</span>
+          <span id="stat-draw" class="stats-value">-</span>
+        </div>
+      </div>
+
+      <div id="new-model-btn" class="stats-panel" style="left: auto; right: 1.5rem; bottom: 1.5rem; cursor: pointer; transition: 0.3s; padding: 0.75rem 1.5rem;" title="Upload another model">
+         <span style="display: flex; align-items: center; gap: 0.5rem; color: #fff; font-weight: 600;">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Model
+         </span>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
