@@ -27,6 +27,7 @@ import draco3d from 'draco3dgltf';
 
 // --- Scene Setup ---
 let scene, camera, renderer, controls, model, environment;
+let mixer, clock;
 const container = document.getElementById('canvas-container');
 
 // State
@@ -38,6 +39,7 @@ let copiedMaterial = null;
 
 // Init Scene
 function init() {
+  clock = new THREE.Clock();
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0f172a);
 
@@ -70,6 +72,8 @@ function onWindowResize() {
 
 function animate() {
   requestAnimationFrame(animate);
+  const delta = clock.getDelta();
+  if (mixer) mixer.update(delta);
   controls.update();
   renderer.render(scene, camera);
 }
@@ -163,9 +167,18 @@ async function loadModel(file) {
   };
 
   if (fileName.endsWith('.obj')) {
+      mixer = null;
       objLoader.load(url, handleLoadedScene, onProgress, onError);
   } else {
-      loader.load(url, (gltf) => handleLoadedScene(gltf.scene), onProgress, onError);
+      loader.load(url, (gltf) => {
+          handleLoadedScene(gltf.scene);
+          if (gltf.animations && gltf.animations.length > 0) {
+              mixer = new THREE.AnimationMixer(gltf.scene);
+              gltf.animations.forEach((clip) => mixer.clipAction(clip).play());
+          } else {
+              mixer = null;
+          }
+      }, onProgress, onError);
   }
 }
 
