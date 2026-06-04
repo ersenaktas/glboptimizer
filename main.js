@@ -350,10 +350,10 @@ async function optimizeModel() {
         ])
         .registerDependencies({
             'draco3d.decoder': await draco3d.createDecoderModule({
-                locateFile: (path) => path.endsWith('.wasm') ? '/draco_decoder_gltf.wasm' : path
+                locateFile: (path) => path.endsWith('.wasm') ? import.meta.env.BASE_URL + 'draco_decoder_gltf.wasm' : path
             }),
             'draco3d.encoder': await draco3d.createEncoderModule({
-                locateFile: (path) => path.endsWith('.wasm') ? '/draco_encoder.wasm' : path
+                locateFile: (path) => path.endsWith('.wasm') ? import.meta.env.BASE_URL + 'draco_encoder.wasm' : path
             }),
         });
         
